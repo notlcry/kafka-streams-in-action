@@ -1,17 +1,7 @@
 package bbejeck.util.serde;
 
 import bbejeck.collectors.FixedSizePriorityQueue;
-import bbejeck.model.ClickEvent;
-import bbejeck.model.CustomerTransactions;
-import bbejeck.model.Purchase;
-import bbejeck.model.PurchaseKey;
-import bbejeck.model.PurchasePattern;
-import bbejeck.model.RewardAccumulator;
-import bbejeck.model.ShareVolume;
-import bbejeck.model.StockPerformance;
-import bbejeck.model.StockTickerData;
-import bbejeck.model.StockTransaction;
-import bbejeck.model.TransactionSummary;
+import bbejeck.model.*;
 import bbejeck.util.collection.Tuple;
 import bbejeck.util.serializer.JsonDeserializer;
 import bbejeck.util.serializer.JsonSerializer;
@@ -37,6 +27,10 @@ public class StreamsSerdes {
 
     public static Serde<Purchase> PurchaseSerde() {
         return new PurchaseSerde();
+    }
+
+    public static Serde<CorrelatedPurchase> CorrelatedPurchaseSerde() {
+        return new CorrelatedPurchaseSerde();
     }
 
     public static Serde<StockTickerData> StockTickerSerde() {
@@ -109,6 +103,12 @@ public class StreamsSerdes {
     public static final class PurchaseSerde extends WrapperSerde<Purchase> {
         public PurchaseSerde() {
             super(new JsonSerializer<>(), new JsonDeserializer<>(Purchase.class));
+        }
+    }
+
+    public static final class CorrelatedPurchaseSerde extends WrapperSerde<CorrelatedPurchase> {
+        public CorrelatedPurchaseSerde() {
+            super(new JsonSerializer<>(), new JsonDeserializer<>(CorrelatedPurchase.class));
         }
     }
 

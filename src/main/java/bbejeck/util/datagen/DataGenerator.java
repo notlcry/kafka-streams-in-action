@@ -26,12 +26,12 @@ import java.util.regex.Pattern;
 
 public class DataGenerator {
 
-    public static final int NUMBER_UNIQUE_CUSTOMERS = 100;
+    public static final int NUMBER_UNIQUE_CUSTOMERS = 1;
     public static final int NUMBER_UNIQUE_STORES = 15;
     public static final int NUMBER_TEXT_STATEMENTS = 15;
-    public static final int DEFAULT_NUM_PURCHASES = 100;
+    public static final int DEFAULT_NUM_PURCHASES = 6;
     public static final int NUMBER_TRADED_COMPANIES = 50;
-    public static final int NUM_ITERATIONS = 10;
+    public static final int NUM_ITERATIONS = 1;
 
     private static Faker dateFaker = new Faker();
     private static Supplier<Date> timestampGenerator = () -> dateFaker.date().past(15, TimeUnit.MINUTES, new Date());
@@ -273,7 +273,7 @@ public class DataGenerator {
         List<Store> stores = new ArrayList<>(NUMBER_UNIQUE_STORES);
         Faker faker = new Faker();
         for (int i = 0; i < NUMBER_UNIQUE_STORES; i++) {
-            String department = (i % 5 == 0) ? "Electronics" : faker.commerce().department();
+            String department = (i % 2 == 0) ? "Electronics" : faker.commerce().department();
             String employeeId = Long.toString(faker.number().randomNumber(5, false));
             String zipCode = faker.options().option("47197-9482", "97666", "113469", "334457");
             String storeId = Long.toString(faker.number().randomNumber(6, true));

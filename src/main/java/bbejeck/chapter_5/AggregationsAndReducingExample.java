@@ -3,6 +3,7 @@ package bbejeck.chapter_5;
 
 import bbejeck.clients.producer.MockDataProducer;
 import bbejeck.collectors.FixedSizePriorityQueue;
+import bbejeck.model.CorrelatedPurchase;
 import bbejeck.model.ShareVolume;
 import bbejeck.model.StockTransaction;
 import bbejeck.util.serde.StreamsSerdes;
@@ -14,11 +15,7 @@ import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
-import org.apache.kafka.streams.kstream.KTable;
-import org.apache.kafka.streams.kstream.Materialized;
-import org.apache.kafka.streams.kstream.Produced;
-import org.apache.kafka.streams.kstream.Serialized;
-import org.apache.kafka.streams.kstream.ValueMapper;
+import org.apache.kafka.streams.kstream.*;
 import org.apache.kafka.streams.processor.WallclockTimestampExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,6 +71,7 @@ public class AggregationsAndReducingExample {
                 .groupBy((k, v) -> v.getSymbol(), Serialized.with(stringSerde, shareVolumeSerde))
                 .reduce(ShareVolume::sum);
 
+//        shareVolume.toStream().print(Printed.toSysOut());
 
         shareVolume.groupBy((k, v) -> KeyValue.pair(v.getIndustry(), v), Serialized.with(stringSerde, shareVolumeSerde))
                 .aggregate(() -> fixedQueue,

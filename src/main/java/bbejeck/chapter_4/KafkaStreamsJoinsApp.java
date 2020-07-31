@@ -30,13 +30,7 @@ import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
-import org.apache.kafka.streams.kstream.JoinWindows;
-import org.apache.kafka.streams.kstream.Joined;
-import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.KeyValueMapper;
-import org.apache.kafka.streams.kstream.Predicate;
-import org.apache.kafka.streams.kstream.Printed;
-import org.apache.kafka.streams.kstream.ValueJoiner;
+import org.apache.kafka.streams.kstream.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +49,7 @@ public class KafkaStreamsJoinsApp {
 
 
         Serde<Purchase> purchaseSerde = StreamsSerdes.PurchaseSerde();
+        Serde<CorrelatedPurchase> correlatedPurchaseSerde = StreamsSerdes.CorrelatedPurchaseSerde();
         Serde<String> stringSerde = Serdes.String();
 
         KeyValueMapper<String, Purchase, KeyValue<String,Purchase>> custIdCCMasking = (k, v) -> {
@@ -87,9 +82,10 @@ public class KafkaStreamsJoinsApp {
                                                                                           purchaseSerde));
 
         joinedKStream.print(Printed.<String, CorrelatedPurchase>toSysOut().withLabel("joined KStream"));
+//        joinedKStream.to("joined", Produced.with(stringSerde,correlatedPurchaseSerde));
 
         // used only to produce data for this application, not typical usage
-        MockDataProducer.producePurchaseData();
+//        MockDataProducer.producePurchaseData();
         
         LOG.info("Starting Join Examples");
         KafkaStreams kafkaStreams = new KafkaStreams(builder.build(), streamsConfig);

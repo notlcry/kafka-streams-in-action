@@ -62,7 +62,7 @@ public class KStreamVsKTableExample {
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
         props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "30000");
         props.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, "15000");
-        //props.put(StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG,"0");
+        props.put(StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG,"0");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(StreamsConfig.NUM_STREAM_THREADS_CONFIG, "1");
         props.put(ConsumerConfig.METADATA_MAX_AGE_CONFIG, "10000");
